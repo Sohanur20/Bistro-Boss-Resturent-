@@ -42,9 +42,10 @@ const Order = () => {
         <div>
         <SwiperSlide >
             <img className='' src={img1} alt="" />
-            <h2 className='text-5xl text-center font-bold uppercase  text-white -mt-32'>Salads</h2>
+            <h2 className='text-5xl text-center font-bold uppercase  text-white lg:-mt-32'>Salads</h2>
         </SwiperSlide>
-        <SwiperSlide className='mx-20 '>
+        
+        <SwiperSlide >
             <img src={img2} alt="" />
             <h2 className='text-5xl text-center font-bold uppercase text-white -mt-32'>Soups</h2>
         </SwiperSlide>
