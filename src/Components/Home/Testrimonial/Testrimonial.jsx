@@ -12,7 +12,7 @@ const Testrimonial = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("public/reviews.json")
+    fetch("../../../../public/menu.json")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -27,7 +27,7 @@ const Testrimonial = () => {
       ></SectionTitle>
       <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
         {reviews.map((review) => (
-          <SwiperSlide key={review._id} rev>
+          <SwiperSlide key={review._id} >
             <div className="m-24 p-4 flex flex-col items-center mx-24 py-8">
               <Rating
                 style={{ maxWidth: 180 }}
