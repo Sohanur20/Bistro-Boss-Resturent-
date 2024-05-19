@@ -7,16 +7,20 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../Components/Provider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn } = useContext(AuthContext);
 
-const {signIn} = useContext(AuthContext)
+  const [disabled, setDisabled] = useState(true);
 
-const [disabled , setDisabled] = useState(true) ;
- 
+  const from = location.state?.from?.pathname || "/";
+  console.log("state in the location login page", location.state);
+
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -28,32 +32,29 @@ const [disabled , setDisabled] = useState(true) ;
     const password = form.password.value;
     console.log(email, password);
 
-    signIn(email,password )
-    .then(result =>{
+    signIn(email, password).then((result) => {
       const user = result.user;
-  if (user) {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Login successfully",
-        showConfirmButton: false,
-        timer: 1500
-      });
-  }
-    
-
-    })
+      if (user) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      navigate(from, { replace: true });
+    });
   };
 
-const handleValidateChaptcha = (e) =>{
-
-const user_captcha_value = e.target.value ;
-if (validateCaptcha(user_captcha_value)==true) {
- setDisabled(false)
-}
-
-}
-
+  const handleValidateChaptcha = (e) => {
+    const user_captcha_value = e.target.value;
+    if (validateCaptcha(user_captcha_value) == true) {
+      setDisabled(false);
+    } else {
+      setDisabled(true)
+  }
+  };
 
   return (
     <div>
@@ -96,33 +97,23 @@ if (validateCaptcha(user_captcha_value)==true) {
                 />
               </div>
               <div className="form-control">
-                <label className="label">
-                  <LoadCanvasTemplate />
-                </label>
-                <input
-                  type="text"
-                  name="chaptcha"
-                  onBlur={handleValidateChaptcha}
- 
-                  placeholder="type the chaptcha"
-                  className="input input-bordered"
-                  required
-                />
-                <button
-               
-                  className="btn btn-outline btn-xs"
-                 
-                >
-                  Validate
-                </button>
-              </div>
-              <div className="form-control mt-6">
-               <input type="submit" disabled={disabled} value='Login' className="btn btn-primary" />
-              </div>
+                                <label className="label">
+                                    <LoadCanvasTemplate />
+                                </label>
+                                <input onBlur={handleValidateChaptcha} type="text" name="captcha" placeholder="type the captcha above" className="input input-bordered" />
+
+                            </div>
+                            <div className="form-control mt-6">
+                                <input disabled={disabled} className="btn btn-primary" type="submit" value="Login" />
+                            </div>
             </form>
-        
-            <p className="text-center">You dont have an account <Link className="text-blue-600 font-bold" to='/signup'>SignUp</Link></p>
-         
+
+            <p className="text-center">
+              You dont have an account{" "}
+              <Link className="text-blue-600 font-bold" to="/signup">
+                SignUp
+              </Link>
+            </p>
           </div>
         </div>
       </div>

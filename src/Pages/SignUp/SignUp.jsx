@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 import loginImg from "../../assets/others/authentication.png";
@@ -8,16 +8,17 @@ import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../Components/Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-const {createUser} = useContext(AuthContext)
+const {createUser , updateUserProfile} = useContext(AuthContext)
 
   const {
     register,
-    handleSubmit,
-  
-    formState: { errors },
+    handleSubmit, formState: { errors },reset
   } = useForm();
+
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -25,6 +26,21 @@ const {createUser} = useContext(AuthContext)
     .then(result =>{
       const loggedUser = result.user ;
       console.log(loggedUser);
+      updateUserProfile(data.name , data.photoURL)
+      .then(() => {
+        console.log('user profile info updated')
+        reset();
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'User created successfully.',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        navigate('/');
+
+    })
+    .catch(error => console.log(error))
     })
 
   };
@@ -54,24 +70,34 @@ const {createUser} = useContext(AuthContext)
                   <span className="label-text">Name</span>
                 </label>
                 <input className="input input-bordered" defaultValue="" placeholder="Name" {...register("name" ,{required : true})} />
-                {errors.name && <span>This field is required</span>}
+                {errors.name && <span className="text-red-600">Name is required</span>}
               </div>
+              <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Photo URL</span>
+                                </label>
+                                <input type="url"  {...register("photoURL", { required: true })} placeholder="Photo URL" className="input input-bordered" />
+                                {errors.photoURL && <span className="text-red-600">Photo URL is required</span>}
+                            </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
                 </label>
                 <input className="input input-bordered" placeholder="email" {...register("email", { required: true })} />
                 {/* errors will return when field validation fails  */}
-                {errors.email && <span>This field is required</span>}
+                {errors.email && <span className="text-red-600">Email is required</span>}
               </div>
 
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
-                <input className="input input-bordered" type="password" placeholder="password" {...register("password", { required: true , minLength : 6 , maxLength : 8})} />
+                <input className="input input-bordered" type="password" placeholder="password" {...register("password", { required: true , minLength : 6 , maxLength : 20 ,  pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/})} />
                 {/* errors will return when field validation fails  */}
-                {errors.password && <span>This field is required</span>}
+                {errors.password?.type === 'required' && <p className="text-red-600">Password is required</p>}
+                                {errors.password?.type === 'minLength' && <p className="text-red-600">Password must be 6 characters</p>}
+                                {errors.password?.type === 'maxLength' && <p className="text-red-600">Password must be less than 20 characters</p>}
+                                {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one Uppercase one lower case, one number and one special character.</p>}
               </div>
               <div className="form-control mt-6">
                 <input

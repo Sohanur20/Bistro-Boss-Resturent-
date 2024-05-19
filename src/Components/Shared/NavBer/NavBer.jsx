@@ -20,7 +20,9 @@ const handleLogOut = () =>{
 
   
   {
-    user ? <><button onClick={handleLogOut}>LogOut</button></> :  <li><NavLink to='/login'>Login</NavLink></li>
+    user ? <>
+   
+    <button onClick={handleLogOut}>LogOut</button> <span>{user?.displayName}</span></> :  <li><NavLink to='/login'>Login</NavLink></li>
   }
     </>
 

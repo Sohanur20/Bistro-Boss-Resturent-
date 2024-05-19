@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { createContext } from "react";
@@ -30,6 +31,11 @@ const logOut = () =>{
     return signOut(auth)
 }
 
+const updateUserProfile = (name, photo) => {
+  return updateProfile(auth.currentUser, {
+      displayName: name, photoURL: photo
+  });
+}
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -48,7 +54,8 @@ const logOut = () =>{
     loading,
     createUser,
     signIn,
-    logOut
+    logOut,
+    updateUserProfile
   };
 
   return (
