@@ -5,9 +5,12 @@ import loginImg from "../../assets/others/authentication.png";
 import loginImg1 from "../../assets/others/authentication2.png";
 
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet-async";
+import { useContext } from "react";
+import { AuthContext } from "../../Components/Provider/AuthProvider";
 
 const SignUp = () => {
-
+const {createUser} = useContext(AuthContext)
 
   const {
     register,
@@ -18,12 +21,21 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+    .then(result =>{
+      const loggedUser = result.user ;
+      console.log(loggedUser);
+    })
+
   };
 
 
 
   return (
     <div>
+    <Helmet>
+      <title>bistro boss signUp</title>
+    </Helmet>
       <div
         className="hero min-h-screen"
         style={{ backgroundImage: `url(${loginImg})` }}
@@ -57,7 +69,7 @@ const SignUp = () => {
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
-                <input className="input input-bordered" placeholder="password" {...register("password", { required: true , minLength : 6 , maxLength : 8})} />
+                <input className="input input-bordered" type="password" placeholder="password" {...register("password", { required: true , minLength : 6 , maxLength : 8})} />
                 {/* errors will return when field validation fails  */}
                 {errors.password && <span>This field is required</span>}
               </div>

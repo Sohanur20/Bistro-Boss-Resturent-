@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import loginImg from "../../assets/others/authentication.png";
 import loginImg1 from "../../assets/others/authentication2.png";
 import {
@@ -8,11 +8,13 @@ import {
 } from "react-simple-captcha";
 import { AuthContext } from "../../Components/Provider/AuthProvider";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const Login = () => {
 
 const {signIn} = useContext(AuthContext)
-const chaptchaRef = useRef(null)
+
 const [disabled , setDisabled] = useState(true) ;
  
   useEffect(() => {
@@ -29,13 +31,23 @@ const [disabled , setDisabled] = useState(true) ;
     signIn(email,password )
     .then(result =>{
       const user = result.user;
-      console.log(user);
+  if (user) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+  }
+    
+
     })
   };
 
-const handleValidateChaptcha = () =>{
+const handleValidateChaptcha = (e) =>{
 
-const user_captcha_value = chaptchaRef.current.value ;
+const user_captcha_value = e.target.value ;
 if (validateCaptcha(user_captcha_value)==true) {
  setDisabled(false)
 }
@@ -45,6 +57,9 @@ if (validateCaptcha(user_captcha_value)==true) {
 
   return (
     <div>
+      <Helmet>
+        <title>bistro boss Login</title>
+      </Helmet>
       <div
         className="hero min-h-screen"
         style={{ backgroundImage: `url(${loginImg})` }}
@@ -87,14 +102,14 @@ if (validateCaptcha(user_captcha_value)==true) {
                 <input
                   type="text"
                   name="chaptcha"
-                 
-                  ref={chaptchaRef}
+                  onBlur={handleValidateChaptcha}
+ 
                   placeholder="type the chaptcha"
                   className="input input-bordered"
                   required
                 />
                 <button
-                  onClick={handleValidateChaptcha}
+               
                   className="btn btn-outline btn-xs"
                  
                 >
