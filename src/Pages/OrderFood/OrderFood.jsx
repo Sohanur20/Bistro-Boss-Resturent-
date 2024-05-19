@@ -6,7 +6,7 @@ import orderImg from "../../assets/shop/banner2.jpg";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import useMenu from "../../Hooks/useMenu";
-import FooCard from "../../Components/Shared/FooCard/FooCard";
+// import FooCard from "../../Components/Shared/FooCard/FooCard";
 import { useParams } from "react-router-dom";
 import OrderTab from "./OrderTab/OrderTab";
 import { Helmet } from "react-helmet-async";
@@ -16,12 +16,14 @@ const OrderFood = () => {
 const categories = ['salad','dessert','soup','pizza']
 const {category} = useParams()
   const initialIndex = categories.indexOf(category)
-  const [tabIndex, setTabIndex] = useState(initialIndex);
+  const defaultIndex = initialIndex !== -1 ? initialIndex : 0
+  const [tabIndex, setTabIndex] = useState(defaultIndex);
+
   const [menu] = useMenu();
   const dessert = menu.filter((item) => item.category === "dessert");
   const soup = menu.filter((item) => item.category === "soup");
   const salad = menu.filter((item) => item.category === "salad");
-  const offered = menu.filter((item) => item.category === "offered");
+  // const offered = menu.filter((item) => item.category === "offered");
   const Pizza = menu.filter((item) => item.category === "pizza");
 
   return (
@@ -39,7 +41,7 @@ const {category} = useParams()
             <Tab>pizza</Tab>
             <Tab>soups</Tab>
             <Tab>desserts</Tab>
-            <Tab>drinks</Tab>
+            {/* <Tab>drinks</Tab> */}
           </TabList>
           <TabPanel>
             <OrderTab items={salad}></OrderTab>

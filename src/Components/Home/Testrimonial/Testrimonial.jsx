@@ -12,10 +12,10 @@ const Testrimonial = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("../../../../public/menu.json")
+    fetch("/public/menu.json")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setReviews(data);
       });
   }, []);
