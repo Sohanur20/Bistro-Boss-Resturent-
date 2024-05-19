@@ -8,6 +8,7 @@ const NavBer = () => {
     <li><NavLink to='/order/category'>Order Food</NavLink></li>
     <li><NavLink to='/secret'>secret</NavLink></li>
     <li><NavLink to='/login'>Login</NavLink></li>
+    <li><NavLink to='/signup'>SignUp</NavLink></li>
   
     </>
 

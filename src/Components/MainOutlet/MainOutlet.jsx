@@ -6,7 +6,7 @@ import NavBer from "../Shared/NavBer/NavBer";
 
 const MainOutlet = () => {
 const location = useLocation()
-const isHeaderFooter = location.pathname.includes('login')
+const isHeaderFooter = location.pathname.includes('login') || location.pathname.includes('signup')
 
     return (
         <div>
