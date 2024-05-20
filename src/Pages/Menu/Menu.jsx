@@ -36,9 +36,9 @@ const Pizza = menu.filter(item =>item.category === 'pizza')
      </SectionTitle>
      {/*  */}
      <Menucategory items={offered}></Menucategory>
-     <Menucategory items={dessert} title={"Dessert"} img={dessrtsImg}></Menucategory>
+     <Menucategory items={dessert} title={"dessert"} img={dessrtsImg}></Menucategory>
      {/*  */}
-     <Menucategory items={Pizza} title={"Pizza"} img={pizza}></Menucategory>
+     <Menucategory items={Pizza} title={"pizza"} img={pizza}></Menucategory>
      <Menucategory items={Pizza}></Menucategory>
      {/*  */}
      <Menucategory items={soup} title={"soup"} img={Soup}></Menucategory>

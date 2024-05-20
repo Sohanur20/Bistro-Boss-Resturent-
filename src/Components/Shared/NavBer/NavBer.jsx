@@ -1,7 +1,8 @@
 
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { FaCartShopping } from "react-icons/fa6";
 
 const NavBer = () => {
 const {user , logOut} = useContext(AuthContext)
@@ -17,13 +18,14 @@ const handleLogOut = () =>{
     <li><NavLink to='/menu'>Our Menu</NavLink></li>
     <li><NavLink to='/order/category'>Order Food</NavLink></li>
     <li><NavLink to='/secret'>secret</NavLink></li>
+    <li><NavLink to='/'><FaCartShopping className="text-2xl" />
+    <div className="badge badge-secondary">
+      99+
+    </div>
+    </NavLink></li>
 
   
-  {
-    user ? <>
-   
-    <button onClick={handleLogOut}>LogOut</button> <span>{user?.displayName}</span></> :  <li><NavLink to='/login'>Login</NavLink></li>
-  }
+
     </>
 
 
@@ -49,8 +51,12 @@ const handleLogOut = () =>{
             {navitems}
         </ul>
     </div>
-    <div className="navbar-end">
-        <Link to='/signup'> <button className="btn text-white btn-outline">Signup</button></Link>
+    <div className="navbar-end flex gap-6">
+    {
+    user ? <>
+    <span>{user?.displayName}</span>
+    <button className="btn btn-outline btn-success" onClick={handleLogOut}>LogOut</button></> :  <li><NavLink to='/login'>Login</NavLink></li>
+  }
     </div>
 </div>
   );

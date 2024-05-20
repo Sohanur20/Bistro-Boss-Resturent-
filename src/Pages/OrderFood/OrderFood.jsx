@@ -24,7 +24,7 @@ const {category} = useParams()
   const soup = menu.filter((item) => item.category === "soup");
   const salad = menu.filter((item) => item.category === "salad");
   // const offered = menu.filter((item) => item.category === "offered");
-  const Pizza = menu.filter((item) => item.category === "pizza");
+  const pizza = menu.filter((item) => item.category === "pizza");
 
   return (
     <div>
@@ -47,7 +47,7 @@ const {category} = useParams()
             <OrderTab items={salad}></OrderTab>
           </TabPanel>
           <TabPanel>
-            <OrderTab items={Pizza}></OrderTab>
+            <OrderTab items={pizza}></OrderTab>
           </TabPanel>
           <TabPanel>
             <OrderTab items={soup}></OrderTab>
