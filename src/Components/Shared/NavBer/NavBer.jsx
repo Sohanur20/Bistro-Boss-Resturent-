@@ -3,10 +3,11 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FaCartShopping } from "react-icons/fa6";
+import useCart from "../../../Hooks/useCart";
 
 const NavBer = () => {
 const {user , logOut} = useContext(AuthContext)
-
+const [cart] = useCart()
 const handleLogOut = () =>{
     logOut()
     .then()
@@ -20,7 +21,7 @@ const handleLogOut = () =>{
     <li><NavLink to='/secret'>secret</NavLink></li>
     <li><NavLink to='/'><FaCartShopping className="text-2xl" />
     <div className="badge badge-secondary">
-      99+
+      {cart.length}
     </div>
     </NavLink></li>
 
