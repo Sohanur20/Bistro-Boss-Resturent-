@@ -19,9 +19,9 @@ const handleLogOut = () =>{
     <li><NavLink to='/menu'>Our Menu</NavLink></li>
     <li><NavLink to='/order/category'>Order Food</NavLink></li>
     <li><NavLink to='/secret'>secret</NavLink></li>
-    <li><NavLink to='/'><FaCartShopping className="text-2xl" />
+    <li><NavLink to='/dashboard/cart'><FaCartShopping className="text-2xl" />
     <div className="badge badge-secondary">
-      {cart.length}
+     + {cart.length}
     </div>
     </NavLink></li>
 

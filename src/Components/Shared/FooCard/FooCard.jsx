@@ -5,60 +5,61 @@ import Swal from "sweetalert2";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAxiosHook from "../../../Hooks/useAxiosHook";
+import useCart from "../../../Hooks/useCart";
 
 const FooCard = ({ item }) => {
-  const { name, image, price, recipe , _id} = item;
-  const {user} = UseAuth()
-const navigate  = useNavigate()  
-const location = useLocation()
-
-const handleAddCart = food => {
-  console.log("Add to cart clicked");
-  console.log("User:", user);
-
-  if (user && user.email) {
-    // Todo: send cart item to the database
-    console.log("User is logged in. Adding to cart...");
-const cartItem = {
-  menuId : _id,
-  email : user.email,
-  name ,
-  image ,
-  price
-}
-axios.post('http://localhost:5000/carts' , cartItem)
-.then(res => {
-  console.log(res.data);
-  if (res.data.insertedId) {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: `${name} added `,
-      showConfirmButton: false,
-      timer: 1500
-    });
-  }
-})
+  const { name, image, price, recipe, _id } = item;
+  const { user } = UseAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosSecure = useAxiosHook();
+const [,refetch] = useCart()
 
 
-  } else {
-    console.log("User is not logged in. Showing SweetAlert...");
-    Swal.fire({
-      title: "You are not Logged in",
-      text: "please login and add the cart?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, want  it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("User confirmed. Redirecting to login...");
-        navigate('/login' , {state : {from : location}} );
-      }
-    });
-  }
-}
+  const handleAddCart = () => {
+    if (user && user.email) {
+   
+      const cartItem = {
+        menuId: _id,
+        email: user.email,
+        name,
+        image,
+        price,
+      };
+      axiosSecure.post("http://localhost:5000/carts", cartItem).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${name} added `,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          refetch()
+        }
+      });
+    } 
+    
+    else {
+     
+      Swal.fire({
+        title: "You are not Logged in",
+        text: "please login and add the cart?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, want  it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log("User confirmed. Redirecting to login...");
+          navigate("/login", { state: { from: location } });
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -75,7 +76,7 @@ axios.post('http://localhost:5000/carts' , cartItem)
 
           <div className="card-actions">
             <button
-              onClick={() => handleAddCart(item)}
+              onClick={ handleAddCart}
               className="btn btn-primary uppercase"
             >
               add to cart
