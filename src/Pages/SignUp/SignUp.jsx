@@ -9,10 +9,13 @@ import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../Components/Provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
 const {createUser , updateUserProfile} = useContext(AuthContext)
-
+const axiosPublic = useAxiosPublic()
   const {
     register,
     handleSubmit, formState: { errors },reset
@@ -21,24 +24,36 @@ const {createUser , updateUserProfile} = useContext(AuthContext)
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     createUser(data.email, data.password)
     .then(result =>{
       const loggedUser = result.user ;
       console.log(loggedUser);
       updateUserProfile(data.name , data.photoURL)
       .then(() => {
-        console.log('user profile info updated')
-        reset();
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'User created successfully.',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        navigate('/');
+        // console.log('user profile info updated')
 
+const userInfo = {
+  name : data.name ,
+  email : data.email
+}
+
+        axiosPublic.post('/users' , userInfo)
+        .then(res =>{
+          if (res.data.insertedId) {
+            console.log('user added to the data base');
+            reset();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'User created successfully.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate('/');
+          }
+        })
+     
     })
     .catch(error => console.log(error))
     })
@@ -113,7 +128,9 @@ const {createUser , updateUserProfile} = useContext(AuthContext)
               <Link className="text-blue-600 font-bold" to="/login">
                 Login
               </Link>
+             <SocialLogin></SocialLogin>
             </p>
+           
           </div>
         </div>
       </div>
