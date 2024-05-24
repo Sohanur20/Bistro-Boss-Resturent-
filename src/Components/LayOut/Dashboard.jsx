@@ -10,6 +10,7 @@ import { RiFeedbackFill, RiShoppingBagFill } from "react-icons/ri";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../../Hooks/useCart";
 import { FaBook, FaCalendar, FaList, FaUsers, FaUtensils } from "react-icons/fa6";
+import useAdmin from "../../Hooks/useAdmin";
 
 const Dashboard = () => {
     const [cart] = useCart()
@@ -17,7 +18,7 @@ const Dashboard = () => {
 
 
 // todo : get isadmin value from the
-    const isAdmin = true ;
+    const [isAdmin] = useAdmin() ;
 
 
   return (
