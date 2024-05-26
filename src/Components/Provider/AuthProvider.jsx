@@ -26,6 +26,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic()
+
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -44,7 +45,7 @@ return signInWithPopup(auth,googleProvider)
 }
 
 const logOut = () =>{
-    setLoading(true)
+    setLoading(false)
     return signOut(auth)
 }
 
