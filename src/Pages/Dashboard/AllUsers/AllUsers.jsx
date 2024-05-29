@@ -7,6 +7,7 @@ import useAxiosHook from "../../../Hooks/useAxiosHook";
 
 const AllUsers = () => {
     const axiosSecure = useAxiosHook();
+    
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -41,10 +42,10 @@ const AllUsers = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
+        }).then( async(result) => {
             if (result.isConfirmed) {
 
-                axiosSecure.delete(`/users/${user._id}`)
+           await  axiosSecure.delete(`/users/${user._id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
                             refetch();
@@ -57,6 +58,7 @@ const AllUsers = () => {
                     })
             }
         });
+        
     }
 
     return (

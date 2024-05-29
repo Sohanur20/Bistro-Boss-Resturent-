@@ -12,6 +12,7 @@ import Cart from "../../Pages/Dashboard/Cart/Cart";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import AddItems from "../../Pages/Dashboard/AddItems/AddItems";
 import AdminRoutes from "./AdminRoutes/AdminRoutes";
+import ManageItems from "../../Pages/Dashboard/ManageItems/ManageItems";
 
 const Router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const Router = createBrowserRouter([
   // admin routes
   {
     path: "/dashboard",
-    element:<Dashboard></Dashboard>,
+    element: <Dashboard></Dashboard>,
     children: [
       // normal users routes
       {
@@ -61,15 +62,31 @@ const Router = createBrowserRouter([
 
       // admin only routes
       {
-        path : '/dashboard/addItems',
-        element :<AdminRoutes><AddItems></AddItems></AdminRoutes>
-      }
-      ,
+        path: "/dashboard/addItems",
+        element: (
+          <AdminRoutes>
+            <AddItems></AddItems>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "/dashboard/manageItems",
+        element: (
+          <AdminRoutes>
+            <ManageItems></ManageItems>
+          </AdminRoutes>
+        ),
+      },
 
       {
-        path : '/dashboard/users',
-        element :<AdminRoutes> <AllUsers></AllUsers></AdminRoutes>
-      }
+        path: "/dashboard/users",
+        element: (
+          <AdminRoutes>
+            {" "}
+            <AllUsers></AllUsers>
+          </AdminRoutes>
+        ),
+      },
     ],
   },
 ]);
