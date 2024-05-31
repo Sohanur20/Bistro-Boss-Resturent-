@@ -5,6 +5,7 @@ import useMenu from "../../../Hooks/useMenu";
 import { FaTrash } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import useAxiosHook from "../../../Hooks/useAxiosHook";
+import { Link } from "react-router-dom";
 
 const ManageItems = () => {
   const [menu ,loading, refetch] = useMenu();
@@ -76,9 +77,15 @@ const ManageItems = () => {
                   <td>{item.name}</td>
                   <td className="text-start">$ {item.price}</td>
                   <th>
-                    <button className="btn btn-ghost text-2xl bg-red-400">
+
+<Link to={`/dashboard/updateItem/${item._id}`}>
+<button className="btn btn-ghost text-2xl bg-red-400">
                       <FaEdit></FaEdit>
                     </button>
+
+</Link>
+
+                
                   </th>
                   <th>
                     <button
